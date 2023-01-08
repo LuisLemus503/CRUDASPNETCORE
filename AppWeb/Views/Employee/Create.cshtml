@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+}
+@model GlobalEntity.Employee;
+<div class="card">
+    <div class="card-title">
+        <h2>Crear Empleado</h2>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <input id="txtidempleado" value="@Model.IdEmpleado" disabled="disabled" class="form-control" type="hidden"""/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input id="txtnombre" value="@Model.Nombre"  class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Edad</label>
+                    <input id="txtedad" value="@Model.Edad" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Salario</label>
+                    <input id="txtsalario" value="@Model.Salario" class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>fecha de ingreso</label>
+                    <input type="text" class="form-control jf" id="txtfechadeingreso" required value="@Model.FechadeIngreso" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <a class="btn btn-success mt-3" onclick="save()">Guardar</a> <a onclick="backlist()" class="btn btn-danger  mt-3">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script>
+
+    $('.jf').datepicker({
+        format: "dd/mm/yyyy"
+    });
+
+    function backlist() {
+
+        window.location.href = "/Employee";
+    }
+
+    function save() {
+
+
+        var IdEmpleado = $('#txtidempleado').val();
+        var Nombre = $('#txtnombre').val();
+        var Edad = $('#txtedad').val();
+        var Salario = $('#txtsalario').val();
+        var FechadeIngreso = $('#txtfechadeingreso').val();
+
+        var isproceed = true;
+
+        if (Nombre != '' && Nombre != null) {
+
+            $('#txtnombre').css('border-color', '#ccc');
+        } else {
+
+            $('#txtnombre').css('border-color', 'red');
+            return isproceed = false;
+        }
+
+        if (Edad != '' && Edad != null) {
+
+            $('#txtedad').css('border-color', '#ccc');
+        } else {
+
+            $('#txtedad').css('border-color', 'red');
+            return isproceed = false;
+        }
+
+        if (Salario != '' && Salario != null) {
+
+            $('#txtsalario').css('border-color', '#ccc');
+        } else {
+
+            $('#txtsalario').css('border-color', 'red');
+            return isproceed = false;
+        }
+        if (FechadeIngreso != '' && FechadeIngreso != null) {
+
+            $('#txtfechadeingreso').css('border-color', '#ccc');
+        } else {
+
+            $('#txtfechadeingreso').css('border-color', 'red');
+            return isproceed = false;
+        }
+
+        if (isproceed) {
+
+             var _employee=new Object();
+            _employee.IdEmpleado = parseInt(IdEmpleado);
+            _employee.Nombre = Nombre;
+              _employee.Edad = parseInt(Edad);
+            _employee.Salario = parseInt(Salario);
+            _employee.FechadeIngreso = FechadeIngreso;
+
+            $.ajax({
+            
+                type:"POST",
+                url:"/Employee/Save",
+                data:_employee,
+                success:function(data){
+                
+                    if(data=='pass'){
+                    
+                        alert('Guardado');
+                        backlist();
+                    }else{
+                    
+                        alert('fallo');
+                    }
+                
+                }
+            
+            })
+        }
+
+    }
+
+   
+</script>
+
+
+}
