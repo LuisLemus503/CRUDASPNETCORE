@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interface;
 using DataAccessLayer.Interface;
+using DataAccessLayer.Models;
 using GlobalEntity;
 using GE = GlobalEntity;
 namespace BusinessLayer
@@ -16,16 +17,23 @@ namespace BusinessLayer
 
         }
 
-        public async Task<List<GE::Employee>> getEmployees() {
+        public async Task<IQueryable<TblEmployee>> Obtenerpro(string valorbuscado) {
 
-            return await this.employeeDA.getEmploye();
-        
+
+            return await this.employeeDA.Obtenerpro(valorbuscado);
         }
 
-        public async Task<GE::Employee> getEmployebyid(int IdEmpleado)
+        public async Task<IQueryable<TblEmployee>> Obtener()
         {
 
-            return await this.employeeDA.getEmployebyid(IdEmpleado);
+            return await this.employeeDA.Obtener();
+        
+        }
+        
+        public async Task<GE::Employee> getEmployebyid(int idEmpleado)
+        {
+
+            return await this.employeeDA.getEmployebyid(idEmpleado);
 
         }
 
@@ -35,13 +43,13 @@ namespace BusinessLayer
         
         }
 
-        public async Task<string> RemoveEmployee(int IdEmpleado) {
+        public async Task<string> RemoveEmployee(int idEmpleado) {
 
-            return await this.employeeDA.RemoveEmployee(IdEmpleado);
+            return await this.employeeDA.RemoveEmployee(idEmpleado);
 
         }
 
-
+        
 
 
     }

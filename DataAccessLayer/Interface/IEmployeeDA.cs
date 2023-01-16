@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccessLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,17 @@ namespace DataAccessLayer.Interface
 {
     public interface IEmployeeDA
     {
-        Task< List<GE::Employee>> getEmploye();
+        Task<IQueryable<TblEmployee>> Obtener();
 
-         Task<GE::Employee> getEmployebyid(int IdEmpleado);
+        Task<IQueryable<TblEmployee>> Obtenerpro(string valorbuscado);
+
+        
+         Task<GE::Employee> getEmployebyid(int idEmpleado);
 
         Task<string> Save(GE::Employee employee);
 
-         Task<string> RemoveEmployee(int IdEmpleado);
+         Task<string> RemoveEmployee(int idEmpleado);
 
-
+        
     }
 }

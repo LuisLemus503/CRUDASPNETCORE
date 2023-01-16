@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="form-group">
-                    <input id="txtidempleado" value="@Model.IdEmpleado" disabled="disabled" class="form-control" type="hidden"""/>
+                    <input id="txtidempleado" value="@Model.IdEmpleado" disabled="disabled" class="form-control" type="hidden"/>
                 </div>
             </div>
         </div>
@@ -74,15 +74,15 @@
     function save() {
 
 
-        var IdEmpleado = $('#txtidempleado').val();
-        var Nombre = $('#txtnombre').val();
-        var Edad = $('#txtedad').val();
-        var Salario = $('#txtsalario').val();
-        var FechadeIngreso = $('#txtfechadeingreso').val();
+        var idEmpleado = $('#txtidempleado').val();
+        var nombre = $('#txtnombre').val();
+        var edad = $('#txtedad').val();
+        var salario = $('#txtsalario').val();
+        var fechadeIngreso = $('#txtfechadeingreso').val();
 
         var isproceed = true;
 
-        if (Nombre != '' && Nombre != null) {
+            if (nombre != '' && nombre != null) {
 
             $('#txtnombre').css('border-color', '#ccc');
         } else {
@@ -91,7 +91,7 @@
             return isproceed = false;
         }
 
-        if (Edad != '' && Edad != null) {
+            if (edad != '' && edad != null) {
 
             $('#txtedad').css('border-color', '#ccc');
         } else {
@@ -100,7 +100,7 @@
             return isproceed = false;
         }
 
-        if (Salario != '' && Salario != null) {
+            if (salario != '' && salario != null) {
 
             $('#txtsalario').css('border-color', '#ccc');
         } else {
@@ -108,7 +108,7 @@
             $('#txtsalario').css('border-color', 'red');
             return isproceed = false;
         }
-        if (FechadeIngreso != '' && FechadeIngreso != null) {
+            if (fechadeIngreso != '' && fechadeIngreso != null) {
 
             $('#txtfechadeingreso').css('border-color', '#ccc');
         } else {
@@ -120,11 +120,11 @@
         if (isproceed) {
 
              var _employee=new Object();
-            _employee.IdEmpleado = parseInt(IdEmpleado);
-            _employee.Nombre = Nombre;
-              _employee.Edad = parseInt(Edad);
-            _employee.Salario = parseInt(Salario);
-            _employee.FechadeIngreso = FechadeIngreso;
+            _employee.IdEmpleado = parseInt(idEmpleado);
+            _employee.Nombre = nombre;
+              _employee.Edad = parseInt(edad);
+            _employee.Salario = parseInt(salario);
+            _employee.FechadeIngreso =fechadeIngreso;
 
             $.ajax({
             

@@ -7,9 +7,10 @@
             <div class="card-title">
                 <h2>Lista de empleados</h2>
             </div>
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped" id="tbllist">
                 <thead class="bg-dark text-white">
                     <tr>
+
                         <td>Nombre</td>
                         <td>Edad</td>
                         <td>Salario</td>
@@ -18,7 +19,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach(GlobalEntity.Employee item in Model)
+                @*foreach(GlobalEntity.Employee item in Model)
                 {
                     <tr>
                         
@@ -39,25 +40,92 @@
                             <a onclick="FunEdit(this)" class="btn btn-primary mx-2">Editar</a><a onclick="FunRemove(this)" class="btn btn-danger">Eliminar</a>
                         </td>
                     </tr>
-                }
+                }*@
+                
             </tbody>
             </table>
         </div>
     </div>
-
+@section Scripts{
     <script>
+
+        $(document).ready(function () {
+
+
+            $('#tbllist').dataTable({
+                "serverSide": true,
+                "ajax": {
+                    "type": "POST",
+                    "url": "@Url.Action("GetAll","Employee")",
+                    "datatype": "json"
+
+
+                },
+                "columns": [
+                    { "data": "nombre" },
+                    { "data": "edad" },
+                    { "data": "salario" },
+                    { "data": "fechadeIngreso" },
+                    {
+                        "data":"idEmpleado","render":function(idEmpleado){
+
+                            return '<a onclick="FunEdit(this)" class="btn btn-primary mx-2">Editar</a>'+
+                                '<a onclick="FunRemove(this)" class="btn btn-danger" > Eliminar </a>'+
+                                '<input type="hidden" id="hd" value='+idEmpleado+'>'
+                        }
+                    }
+
+                ]
+
+            });
+            //load();
+        });
+        /*
+        function load(){
+        
+            var empdata=[];
+
+           
+            $.ajax({
+
+                type: "POST",
+                url: "/Employee/GetAll",
+                async:false,
+                success: function (data) {
+                    if(data!=null){
+                    
+                        $.each(data,function(key,value){
+
+                            var editbn = "<a onclick='FunEdit(this)' class='btn btn-primary mx-2'>Editar</a>"
+                            var eliminar = "<a onclick='FunRemove(this)' class='btn btn-danger' > Eliminar </a>"
+                             var hdn="<input type='hidden' id='hd' value='"+value.idEmpleado+"'>"
+                            var action = editbn + eliminar+hdn
+                           empdata.push([value.idEmpleado,value.nombre,value.edad,value.salario,value.fechadeIngreso,action]);
+
+                        })
+                    }
+
+                }
+            
+            });
+
+           
+        }
+
+        */
+
 
         function FunEdit(element){
 
-        var IdEmpleado = $(element).closest('tr').find('input[type=hidden]').val();
-        window.location.href = "/Employee/Edit?IdEmpleado=" + IdEmpleado;
+            var idEmpleado = $(element).closest('tr').find('#hd').val();
+        window.location.href = "/Employee/Edit?idEmpleado=" + idEmpleado;
         
         
         }
 
     function FunRemove(element) {
 
-        var IdEmpleado = $(element).closest('tr').find('input[type=hidden]').val();
+            var idEmpleado = $(element).closest('tr').find('#hd').val();
 
         if(confirm("¿Desea eliminar el empleado?")){
 
@@ -65,7 +133,7 @@
 
                 type: "POST",
                 url: "/Employee/Remove",
-                data: { IdEmpleado: IdEmpleado },
+                data: { idEmpleado: idEmpleado },
                 success: function (data) {
 
                     if (data == 'pass') {
@@ -87,4 +155,11 @@
 
     }
 
+
+ 
+
     </script>
+    
+
+
+}

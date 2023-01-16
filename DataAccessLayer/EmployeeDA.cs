@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Interface;
 using DataAccessLayer.Models;
+using GlobalEntity;
 using Microsoft.EntityFrameworkCore;
 using GE = GlobalEntity;
 namespace DataAccessLayer
@@ -15,41 +16,33 @@ namespace DataAccessLayer
         
         }
 
-        public async  Task<List<GE::Employee>> getEmploye() {
 
-            var _data =await this.learnDbContext.TblEmployees.ToListAsync();
 
-            List<GE::Employee> employees = new List<GE.Employee>();
+        public async Task<IQueryable<TblEmployee>> Obtenerpro(string valorbuscado)
+        {
+            IQueryable<TblEmployee> quuery = await this.Obtener();
 
-            if (_data != null && _data.Count > 0) {
+            quuery = (IQueryable<TblEmployee>)quuery.Where(e => string.Concat(e.Nombre).Contains(valorbuscado)).ToListAsync();
 
-                _data.ForEach(item =>
-                {
-                    employees.Add(new GE.Employee()
-                    {
+            return quuery;
 
-                        IdEmpleado=item.IdEmpleado,
-                        Nombre=item.Nombre,
-                        Edad=item.Edad,
-                        Salario=item.Salario,
-                        FechadeIngreso=  item.FechadeIngreso
-
-                    });
-
-                }
-                );
-            
-            }
-
-            return employees;
-        
         }
 
-
-        public async Task<GE::Employee> getEmployebyid(int IdEmpleado )
+        public async Task<IQueryable<TblEmployee>> Obtener()
         {
 
-            var _data = await this.learnDbContext.TblEmployees.FirstOrDefaultAsync(item =>item.IdEmpleado==IdEmpleado);
+            IQueryable<TblEmployee> queery = this.learnDbContext.TblEmployees;
+
+            return queery;
+
+        }
+
+        
+
+        public async Task<GE::Employee> getEmployebyid(int idEmpleado )
+        {
+
+            var _data = await this.learnDbContext.TblEmployees.FirstOrDefaultAsync(item =>item.IdEmpleado==idEmpleado);
 
             GE::Employee employees = new GE.Employee();
 
@@ -127,10 +120,10 @@ namespace DataAccessLayer
 
 
 
-        public async Task<string > RemoveEmployee(int IdEmpleado)
+        public async Task<string > RemoveEmployee(int idEmpleado)
         {
 
-            var _data = await this.learnDbContext.TblEmployees.FirstOrDefaultAsync(item => item.IdEmpleado == IdEmpleado);
+            var _data = await this.learnDbContext.TblEmployees.FirstOrDefaultAsync(item => item.IdEmpleado == idEmpleado);
 
             string Response = string.Empty;
 
